@@ -349,8 +349,8 @@
 -r:"Library/Bee/artifacts/2400b0aE.dag/com.unity.cinemachine.editor.ref.dll"
 -analyzer:"/home/lucas/Unity/Hub/Editor/2022.3.14f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.Properties.SourceGenerator.dll"
 -analyzer:"/home/lucas/Unity/Hub/Editor/2022.3.14f1/Editor/Data/Tools/Unity.SourceGenerators/Unity.SourceGenerators.dll"
-"Assets/PlayerMovement.cs"
-"Assets/ThirdPersonMovement.cs"
+"Assets/Scripts/PlatformMovement.cs"
+"Assets/Scripts/ThirdPersonMovement.cs"
 -langversion:9.0
 
 /deterministic

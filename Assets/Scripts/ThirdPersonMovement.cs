@@ -11,9 +11,10 @@ public class ThirdPersonMovement : MonoBehaviour
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
-    [SerializeField] float jumpHeight;
+    [SerializeField] float defaultJumpHeight;
     [SerializeField] float gravity;
 
+    float jumpHeight;
     float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     Vector2 movement;
@@ -28,6 +29,7 @@ public class ThirdPersonMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         currentSpeed = walkSpeed;
+        jumpHeight = defaultJumpHeight;
     }
 
     // Update is called once per frame
@@ -71,10 +73,21 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         controller.Move(velocity * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) || transform.position.y < -30)
         {
             transform.position = new Vector3(0, 1, 0);
-
         }
     }
+
+    void OnControllerColliderHit(ControllerColliderHit hit) 
+    { 
+        if (hit.gameObject.tag == ("Jump Platform")) 
+        { 
+            jumpHeight = 2 * defaultJumpHeight;
+        } else {
+            jumpHeight = defaultJumpHeight;
+        }
+    }
+
+    
 }
