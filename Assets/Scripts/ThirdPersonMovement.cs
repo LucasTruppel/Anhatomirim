@@ -6,6 +6,8 @@ public class ThirdPersonMovement : MonoBehaviour
 {
     CharacterController controller;
 
+    Animator animator;
+
     [SerializeField] Transform cam;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
@@ -26,6 +28,7 @@ public class ThirdPersonMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         currentSpeed = walkSpeed;
@@ -36,6 +39,10 @@ public class ThirdPersonMovement : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer);
+        if (isGrounded && velocity.y <= 0)
+        {
+            animator.SetBool("isJumping", false);
+        }
 
         if (isGrounded && velocity.y < 0)
         {
@@ -61,11 +68,20 @@ public class ThirdPersonMovement : MonoBehaviour
             
             Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
+            // change animation to running
+            animator.SetBool("isRunning", true);
+            Debug.Log("running");
+        } else {
+            // change animation to idle
+            animator.SetBool("isRunning", false);
         }
+
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * 10 * -2 * gravity);
+            animator.SetBool("isJumping", true);
+            Debug.Log("jumped");
         }
 
         if (velocity.y > -20) {
@@ -76,6 +92,7 @@ public class ThirdPersonMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) || transform.position.y < -30)
         {
             transform.position = new Vector3(0, 1, 0);
+            velocity = Vector3.zero;
         }
     }
 
