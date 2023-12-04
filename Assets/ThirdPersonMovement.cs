@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class ThirdPersonMovement : MonoBehaviour
 {
-    public Transform cam;
     CharacterController controller;
+
+    [SerializeField] Transform cam;
+    [SerializeField] Transform groundCheck;
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] float walkSpeed;
+    [SerializeField] float runSpeed;
+    [SerializeField] float jumpHeight;
+    [SerializeField] float gravity;
 
     float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
     Vector2 movement;
-    public float walkSpeed = 6f;
-    public float runSpeed = 12f;
     float currentSpeed;
-
-    public float jumpHeight;
-    public float gravity;
     bool isGrounded;
     Vector3 velocity;
 
@@ -31,7 +33,7 @@ public class ThirdPersonMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(transform.position, 0.1f, 1);
+        isGrounded = Physics.CheckSphere(groundCheck.position, 0.1f, groundLayer);
 
         if (isGrounded && velocity.y < 0)
         {
